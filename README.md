@@ -45,6 +45,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Using Swagger for testing on local
+
+```
+
+URL: http://localhost:3000/api#/Toll/TollTaxCalculatorController_getTax
+
+query Params: vehicleType, city, dates
+
+```
+
 ## Test
 
 ```bash
