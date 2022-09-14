@@ -13,11 +13,6 @@ export class TaxService {
   ) {}
 
   getTax(taxRequest: TaxRequestDTO): ITollTaxCalculatorResponse {
-
-    console.log("*****************+")
-    console.log(taxRequest)
-    console.log("*****************+")
-
     const vehicle = this.vehicleFactory.getVehicle(taxRequest.vehicleType);
     this.context.createCitiesCongestionTaxCalculatorStrategy(vehicle, taxRequest.dates);
     const strategy = this.context.getCityCongestionTaxCalculatorStrategy(taxRequest.city);
