@@ -4,7 +4,9 @@ import Car from "./car";
 import Motorbike from "./motorbike";
 import { Diplomat, Emergency, Foreign, Military, Tractor } from "./others";
 import { TypeVehicle } from "./vehicle.type";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class VehicleFactory {
   private factory: Dictionary<IVehicle>;
 

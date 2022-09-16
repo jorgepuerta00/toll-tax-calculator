@@ -2,19 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { TaxRequestDTO } from '../libs/TaxRequestDTO';
 import { CongestionTaxCalculatorContext } from '../domain/strategy/congestionTaxCalculator.context';
 import { ITollTaxCalculatorResponse, TollTaxCalculatorResponse } from '../libs/response';
-import { VehicleFactory } from '../domain/vehicle/vehicle.factory';
 
 @Injectable()
 export class TaxService {
 
   constructor(
-    private context: CongestionTaxCalculatorContext,
-    private vehicleFactory: VehicleFactory 
+    private context: CongestionTaxCalculatorContext
   ) {}
 
   getTax(taxRequest: TaxRequestDTO): ITollTaxCalculatorResponse {
-    const vehicle = this.vehicleFactory.getVehicle(taxRequest.vehicleType);
-    this.context.createCitiesCongestionTaxCalculatorStrategy(vehicle, taxRequest.dates);
+    this.context.createCitiesCongestionTaxCalculatorStrategy(taxRequest.vehicleType, taxRequest.dates);
     const strategy = this.context.getCityCongestionTaxCalculatorStrategy(taxRequest.city);
     return new TollTaxCalculatorResponse(taxRequest.vehicleType, taxRequest.city, strategy.getTax());
   }

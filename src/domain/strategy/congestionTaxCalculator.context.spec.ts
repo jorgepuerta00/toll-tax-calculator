@@ -1,17 +1,23 @@
 import { CongestionTaxCalculatorContext } from './congestionTaxCalculator.context';
 import { CityCongestionTaxCalculatorEnum } from './cities.enum';
 import Car from '../vehicle/car';
+import { VehicleFactory } from '../vehicle/vehicle.factory';
+import { TestingModule, Test } from '@nestjs/testing';
 
 describe('CongestionTaxCalculatorContext', () => {
   let context: CongestionTaxCalculatorContext;
 
   beforeEach(async () => {
-    context = new CongestionTaxCalculatorContext();
+    const app: TestingModule = await Test.createTestingModule({
+      providers: [CongestionTaxCalculatorContext, VehicleFactory],
+    }).compile();
+    
+    context = app.get<CongestionTaxCalculatorContext>(CongestionTaxCalculatorContext);
   });
 
   describe('Gothenburg Congestion Tax Calculator', () => {
     it('should return 29 total fee', () => {
-      context.createCitiesCongestionTaxCalculatorStrategy(new Car(), dates);
+      context.createCitiesCongestionTaxCalculatorStrategy('Car', dates);
       const strategy = context.getCityCongestionTaxCalculatorStrategy(CityCongestionTaxCalculatorEnum[CityCongestionTaxCalculatorEnum.Gothenburg]);
       expect(strategy.getTax()).toBe(29);
     });
@@ -19,7 +25,7 @@ describe('CongestionTaxCalculatorContext', () => {
 
   describe('Stockholm Congestion Tax Calculator', () => {
     it('should return 35 total fee', () => {
-      context.createCitiesCongestionTaxCalculatorStrategy(new Car(), dates);
+      context.createCitiesCongestionTaxCalculatorStrategy('Car', dates);
       const strategy = context.getCityCongestionTaxCalculatorStrategy(CityCongestionTaxCalculatorEnum[CityCongestionTaxCalculatorEnum.Stockholm]);
       expect(strategy.getTax()).toBe(35);
     });
